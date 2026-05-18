@@ -7,6 +7,13 @@ public class FireLaser : MonoBehaviour
 
     [Range(0, 30)] public float maxRange;
 
+    public int wallLayer;
+
+    void Start()
+    {
+        wallLayer = 1 << wallLayer;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -27,7 +34,7 @@ public class FireLaser : MonoBehaviour
             Vector3 projectileDirection = Vector3.Normalize(worldPosition - transform.position);
 
             // STEP 2: DETERMINE ENDPOINT FOR LASER
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, projectileDirection, maxRange);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, projectileDirection, maxRange, wallLayer);
 
             // STEP 3: FIND MIDPOINT
             Vector3 midpoint = (projectileDirection * maxRange) / 2;
