@@ -30,16 +30,19 @@ public class FireLaser : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(transform.position, projectileDirection, maxRange);
 
             // STEP 3: FIND MIDPOINT
-            Vector3 midpoint = Vector3.zero;
+            Vector3 midpoint = (projectileDirection * maxRange) / 2;
+            float distance = maxRange;
+            float angle = Mathf.Atan2(projectileDirection.y, projectileDirection.x) * Mathf.Rad2Deg;
             
             if (hit)
             {
-                midpoint = (hit.point - transform.position) / 2;
-                distance = (hit.point - transform.position).magnitude;
-
-                GameObject laser = Instantiate(laserPrefab, midpoint, Quaternion.identity);
-                // laser.localScale = 
+                midpoint = (hit.point - (Vector2) transform.position) / 2;
+                distance = (hit.point - (Vector2) transform.position).magnitude;                              
             }
+
+            GameObject laser = Instantiate(laserPrefab, midpoint, Quaternion.identity);
+            laser.transform.localScale = new Vector3(distance, laser.transform.localScale.y, laser.transform.localScale.z); 
+            laser.transform.rotation = Quaternion.Euler(0, 0, angle);
         }   
     }
 }
